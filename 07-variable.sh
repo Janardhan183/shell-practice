@@ -1,5 +1,5 @@
 #!/bin/bash
 
-DATA=$(date)
+DATE=$(date)
 
 echo "Timestamp executed: $DATE"
