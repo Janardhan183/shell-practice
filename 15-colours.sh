@@ -8,8 +8,8 @@ Y="\e[33m"
 N="\e[0m"
 
 if [ $USERID -ne 0 ]; then
-    echo "Error :: Please runth script with root user"
-    exit 1 #failure is otherthan 0
+    echo "Error :: Please run this script with root user"
+    exit 1 #failure is other than 0
 fi
 
 VALIDATE(){
@@ -17,16 +17,16 @@ VALIDATE(){
     echo -e "Installing $2 ... $R FAILURE $N"
     exit 1
 else
-    echo -e "Installing my $2... $G is success $N"
+    echo -e "Installing $2 ... $G is success $N"
 fi
 }
 
-dnf list install mysql
-if [ $? -nq 0 ]; then
+dnf list installed mysql
+if [ $? -ne 0 ]; then
     dnf install mysql -y
     VALIDATE $? "MYSQL"
 else
-echo "MYSQL already exist... $Y Skipping %N"
+echo "MYSQL already exist... $Y Skipping $N"
 fi
 
 dnf list install mysql
@@ -34,7 +34,7 @@ if [ $? -nq 0 ]; then
     dnf install niginx -y
     VALIDATE $? "Nginx"
 else
-echo -e "niginx already exist... $Y Skipping %N"
+echo -e "niginx already exist... $Y Skipping $N"
 fi
 
 dnf list instal python3
@@ -42,5 +42,5 @@ if [ $? -nq 0 ]; then
    dnf install python3 -y
    VALIDATE $? "python3"
 else
-echo -e "python3 already exist... $Y Skipping %N"
+echo -e "python3 already exist... $Y Skipping $N"
 fi
