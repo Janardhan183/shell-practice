@@ -11,7 +11,7 @@ LOGS_FOLDER="/var/log/shell-script"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 mkdir -p $LOGS_FOLDER
-echo "Script started executed at: $(date)"
+echo "Script started executed at: $(date)" | tee -a $LOG_FILE
 
 if [ $USERID -ne 0 ]; then
     echo "Error :: Please run this script with root user"
@@ -20,10 +20,10 @@ fi
 
 VALIDATE(){
     if [ $1 -ne 0 ]; then
-    echo -e "Installing $2 ... $R FAILURE $N"
+    echo -e "Installing $2 ... $R FAILURE $N" | tee -a $LOG_FILE
     exit 1
 else
-    echo -e "Installing $2 ... $G is success $N"
+    echo -e "Installing $2 ... $G is success $N" | tee -a $LOG_FILE
 fi
 }
 
@@ -32,7 +32,7 @@ if [ $? -np 0 ]; then
     dnf install mysql -y &>>$LOG_FILE
     VALIDATE $? "MYSQL"
 else
-echo "MYSQL already exist... $Y Skipping $N"
+echo "MYSQL already exist... $Y Skipping $N" | tee -a $LOG_FILE
 fi
 
 dnf list install niginx &>>$LOG_FILE
@@ -40,7 +40,7 @@ if [ $? -nq 0 ]; then
     dnf install niginx -y &>>$LOG_FILE
     VALIDATE $? "Nginx"
 else
-echo -e "niginx already exist... $Y Skipping $N"
+echo -e "niginx already exist... $Y Skipping $N" | tee -a $LOG_FILE
 fi
 
 dnf list instal python3 &>>$LOG_FILE
